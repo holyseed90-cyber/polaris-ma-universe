@@ -1,0 +1,61 @@
+name: BTC Candlestick Master Phase 2
+
+on:
+  push:
+    branches:
+      - research/candlestick-master
+    paths:
+      - ".github/workflows/candlestick_master_phase2.yml"
+      - "research/candlestick_master/candle_master_phase2.py.gz"
+      - "research/candlestick_master/requirements.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sequence-research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          ref: research/candlestick-master
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r research/candlestick_master/requirements.txt
+
+      - name: Restore phase 2 engine
+        run: gzip -dc research/candlestick_master/candle_master_phase2.py.gz > research/candlestick_master/candle_master_phase2.py
+
+      - name: Run sequence and first-passage research
+        run: python research/candlestick_master/candle_master_phase2.py
+
+      - name: Upload phase 2 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-candlestick-master-phase2
+          path: research/candlestick_master/output_phase2/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit reproducible phase 2 results
+        run: |
+          git config user.name "candlestick-research-bot"
+          git config user.email "candlestick-research-bot@users.noreply.github.com"
+          git pull --rebase origin research/candlestick-master
+          git add research/candlestick_master/output_phase2/
+          if git diff --cached --quiet; then
+            echo "No phase 2 result changes"
+          else
+            git commit -m "research: update candlestick phase 2 results [skip ci]"
+            git push origin HEAD:research/candlestick-master
+          fi
