@@ -1,0 +1,1 @@
+rule_id,signal_time_utc,timeframe,side,entry_time_utc,entry_price,atr_at_signal,target_price,stop_price,max_hold_bars,status,outcome,exit_time_utc,exit_price,gross_return_pct,net_30bps_pct,net_50bps_pct,notes
