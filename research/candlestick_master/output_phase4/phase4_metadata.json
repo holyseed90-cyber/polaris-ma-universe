@@ -1,0 +1,18 @@
+{
+  "phase": "4",
+  "generated_utc": "2026-10-28T17:32:40.047001+00:00",
+  "venues_loaded": 4,
+  "event_rows": 41767,
+  "configs_cached": 288,
+  "walkforward_scored_rows": 19853,
+  "selected_rows": 2026,
+  "portfolio_rows": 1501,
+  "folds": [
+    "WF2023",
+    "WF2024",
+    "WF2025",
+    "WF2026"
+  ],
+  "progress_completed_pct": 83,
+  "progress_remaining_pct": 17
+}
