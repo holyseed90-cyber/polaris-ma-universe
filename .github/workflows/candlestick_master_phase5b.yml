@@ -1,0 +1,56 @@
+name: BTC Candlestick Master Phase 5B Precision Audit
+
+on:
+  push:
+    branches:
+      - research/candlestick-master-phase5b
+    paths:
+      - ".github/workflows/candlestick_master_phase5b.yml"
+      - "research/candlestick_master/candle_master_phase5b.py.gz"
+      - "research/candlestick_master/phase3d_parts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  precision-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout Phase 5B branch
+        uses: actions/checkout@v4
+        with:
+          ref: research/candlestick-master-phase5b
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install "numpy>=2.0,<3" "pandas>=2.2,<3" "requests>=2.32,<3" "scipy>=1.14,<2" "tabulate>=0.9,<1"
+
+      - name: Restore Phase 3D data engine
+        run: cat research/candlestick_master/phase3d_parts/part_*.py > research/candlestick_master/candle_master_phase3d.py
+
+      - name: Restore Phase 5B precision engine
+        run: gzip -dc research/candlestick_master/candle_master_phase5b.py.gz > research/candlestick_master/candle_master_phase5b.py
+
+      - name: Syntax check
+        run: |
+          python -m py_compile research/candlestick_master/candle_master_phase3d.py
+          python -m py_compile research/candlestick_master/candle_master_phase5b.py
+
+      - name: Run ultra-precision walk-forward audit
+        run: python research/candlestick_master/candle_master_phase5b.py
+
+      - name: Upload Phase 5B artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-candlestick-master-phase5b
+          path: research/candlestick_master/output_phase5b/
+          if-no-files-found: error
+          retention-days: 30
