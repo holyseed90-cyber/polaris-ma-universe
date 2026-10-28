@@ -19,9 +19,10 @@
                     if isinstance(sr, pd.DataFrame):
                         sr = sr.iloc[-1]
                     long_side = side == "long"
+                    spot_ma_ready = bool(sr.get("ma8_available", False))
                     event["f_spot_bias_align"] = bool(sr.get("bull_bias_score", 0) >= 2 if long_side else sr.get("bear_bias_score", 0) >= 2)
                     event["f_spot_structure_align"] = sr.get("structure_state") == ("bull" if long_side else "bear")
-                    event["f_spot_ma_align"] = bool(sr.get("above_count", 0) >= 6 if long_side else sr.get("above_count", 8) <= 2)
+                    event["f_spot_ma_align"] = bool(spot_ma_ready and (sr.get("above_count", 0) >= 6 if long_side else sr.get("above_count", 8) <= 2))
                     spot_close = float(sr.close)
                     perp_close = float(row.close)
                     basis_bps = (perp_close / spot_close - 1) * 10000 if spot_close else np.nan
