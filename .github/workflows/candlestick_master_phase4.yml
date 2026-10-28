@@ -1,0 +1,71 @@
+name: BTC Candlestick Master Phase 4
+
+on:
+  push:
+    branches:
+      - research/candlestick-master
+    paths:
+      - ".github/workflows/candlestick_master_phase4.yml"
+      - "research/candlestick_master/phase4_parts/**"
+      - "research/candlestick_master/phase3d_parts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  composite-walkforward:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          ref: research/candlestick-master
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install "numpy>=2.0,<3" "pandas>=2.2,<3" "requests>=2.32,<3" "tabulate>=0.9,<1" "scipy>=1.14,<2"
+
+      - name: Restore Phase 3D dependency
+        run: cat research/candlestick_master/phase3d_parts/part_*.py > research/candlestick_master/candle_master_phase3d.py
+
+      - name: Restore Phase 4 engine
+        run: cat research/candlestick_master/phase4_parts/part_*.py > research/candlestick_master/candle_master_phase4.py
+
+      - name: Syntax check
+        run: |
+          python -m py_compile research/candlestick_master/candle_master_phase3d.py
+          python -m py_compile research/candlestick_master/candle_master_phase4.py
+
+      - name: Run composite score and nested walk-forward research
+        run: |
+          cd research/candlestick_master
+          python candle_master_phase4.py
+
+      - name: Upload Phase 4 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-candlestick-master-phase4
+          path: research/candlestick_master/output_phase4/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit reproducible Phase 4 results
+        run: |
+          git config user.name "candlestick-research-bot"
+          git config user.email "candlestick-research-bot@users.noreply.github.com"
+          git pull --rebase origin research/candlestick-master
+          git add research/candlestick_master/output_phase4/
+          if git diff --cached --quiet; then
+            echo "No Phase 4 result changes"
+          else
+            git commit -m "research: update Phase 4 composite results [skip ci]"
+            git push origin HEAD:research/candlestick-master
+          fi
