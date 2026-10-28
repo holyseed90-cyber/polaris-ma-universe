@@ -1,0 +1,16 @@
+{
+  "phase": "3C",
+  "generated_utc": "2026-10-28T16:40:52.533433+00:00",
+  "bars": {
+    "1h": 76052,
+    "4h": 19028,
+    "12h": 6347,
+    "1d": 3174
+  },
+  "ladder_events": 13504,
+  "touch_events": 27839,
+  "migration_events": 12029,
+  "long_body_confirmation_events": 6690,
+  "progress_completed_pct": 63,
+  "progress_remaining_pct": 37
+}
