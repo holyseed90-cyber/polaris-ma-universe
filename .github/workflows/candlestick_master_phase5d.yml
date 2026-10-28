@@ -1,0 +1,68 @@
+name: BTC Candlestick Master Phase 5D Derivatives Audit
+
+on:
+  push:
+    branches:
+      - research/candlestick-master-phase5d
+    paths:
+      - ".github/workflows/candlestick_master_phase5d.yml"
+      - "research/candlestick_master/candle_master_phase5d.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  derivatives-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - name: Checkout Phase 5D branch
+        uses: actions/checkout@v4
+        with:
+          ref: research/candlestick-master-phase5d
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install "numpy>=2.0,<3" "pandas>=2.2,<3" "requests>=2.32,<3" "scipy>=1.14,<2" "tabulate>=0.9,<1"
+
+      - name: Download frozen Phase 5B and 5C research artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p inputs/phase5b inputs/phase5c
+          curl -L --fail --retry 4 \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/12842653771/zip" \
+            -o phase5b.zip
+          curl -L --fail --retry 4 \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/12845298212/zip" \
+            -o phase5c.zip
+          unzip -q phase5b.zip -d inputs/phase5b
+          unzip -q phase5c.zip -d inputs/phase5c
+          test -s inputs/phase5b/perp_event_outcomes.csv
+          test -s inputs/phase5c/indicator_event_features.csv
+
+      - name: Syntax check
+        run: python -m py_compile research/candlestick_master/candle_master_phase5d.py
+
+      - name: Run derivatives and order-flow walk-forward audit
+        run: python research/candlestick_master/candle_master_phase5d.py
+
+      - name: Upload Phase 5D artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-candlestick-master-phase5d
+          path: research/candlestick_master/output_phase5d/
+          if-no-files-found: error
+          retention-days: 30
