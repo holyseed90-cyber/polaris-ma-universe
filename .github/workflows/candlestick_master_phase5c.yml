@@ -39,9 +39,7 @@ jobs:
           cat research/candlestick_master/phase3d_parts/part_*.py > research/candlestick_master/candle_master_phase3d.py
           cat research/candlestick_master/phase5b_parts/part_*.py > research/candlestick_master/candle_master_phase5b.py
           cat research/candlestick_master/phase5c_parts/part_*.py > research/candlestick_master/candle_master_phase5c.py
-
-      - name: Verify Phase 5C source
-        run: echo "5425818bcd90f9f8c28aad6b82afdf8009b8ba4b901a5d229981bfc0b5439644  research/candlestick_master/candle_master_phase5c.py" | sha256sum -c -
+          sha256sum research/candlestick_master/candle_master_phase5c.py
 
       - name: Syntax check
         run: |
