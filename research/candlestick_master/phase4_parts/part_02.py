@@ -42,8 +42,10 @@ def add_consensus(events: pd.DataFrame) -> pd.DataFrame:
         for k, t in enumerate(times):
             count = 0
             for arr in by_venue.values():
+                # Causal agreement only: a same/previous venue signal may be used,
+                # but a signal occurring after the current signal is never counted.
                 left = np.searchsorted(arr, t - tol, side="left")
-                right = np.searchsorted(arr, t + tol, side="right")
+                right = np.searchsorted(arr, t, side="right")
                 count += int(right > left)
             out[k] = count
         e.loc[positions, "consensus_near"] = out
