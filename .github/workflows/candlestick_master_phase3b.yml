@@ -36,6 +36,9 @@ jobs:
       - name: Restore phase 3B engine
         run: cat research/candlestick_master/phase3b_parts/part_*.py > research/candlestick_master/candle_master_phase3b.py
 
+      - name: Apply DataFrame column compatibility patch
+        run: sed -i 's/valid\.mode/valid["mode"]/g' research/candlestick_master/candle_master_phase3b.py
+
       - name: Syntax check
         run: python -m py_compile research/candlestick_master/candle_master_phase3b.py
 
