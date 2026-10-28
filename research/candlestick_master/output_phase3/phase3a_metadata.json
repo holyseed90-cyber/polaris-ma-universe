@@ -1,0 +1,15 @@
+{
+  "source": "https://raw.githubusercontent.com/alessiostomeo/btc-cycle-data/main/binance/1h/BTCUSDT_binance_hourly_2018-2026.csv.gz",
+  "generated_utc": "2026-10-28T15:19:33.653204+00:00",
+  "phase": "3A",
+  "bars": {
+    "1h": 76052,
+    "4h": 19028,
+    "12h": 6347,
+    "1d": 3174
+  },
+  "event_rows": 104,
+  "survivors": 6,
+  "first_passage_rows": 1248,
+  "context_rows": 520
+}
