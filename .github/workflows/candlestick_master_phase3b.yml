@@ -1,0 +1,64 @@
+name: BTC Candlestick Master Phase 3B
+
+on:
+  push:
+    branches:
+      - research/candlestick-master
+    paths:
+      - ".github/workflows/candlestick_master_phase3b.yml"
+      - "research/candlestick_master/phase3b_parts/**"
+      - "research/candlestick_master/requirements.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bondweb-hypothesis-research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          ref: research/candlestick-master
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r research/candlestick_master/requirements.txt
+
+      - name: Restore phase 3B engine
+        run: cat research/candlestick_master/phase3b_parts/part_*.py > research/candlestick_master/candle_master_phase3b.py
+
+      - name: Syntax check
+        run: python -m py_compile research/candlestick_master/candle_master_phase3b.py
+
+      - name: Run Bondweb-derived BTC research
+        run: python research/candlestick_master/candle_master_phase3b.py
+
+      - name: Upload phase 3B artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-candlestick-master-phase3b
+          path: research/candlestick_master/output_phase3b/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit reproducible phase 3B results
+        run: |
+          git config user.name "candlestick-research-bot"
+          git config user.email "candlestick-research-bot@users.noreply.github.com"
+          git pull --rebase origin research/candlestick-master
+          git add research/candlestick_master/output_phase3b/
+          if git diff --cached --quiet; then
+            echo "No phase 3B result changes"
+          else
+            git commit -m "research: update Bondweb-derived phase 3B results [skip ci]"
+            git push origin HEAD:research/candlestick-master
+          fi
