@@ -1,4 +1,4 @@
-   merged["i_spot_cmf"] = sf["i_cmf05"]
+                merged["i_spot_cmf"] = sf["i_cmf05"]
                 merged["i_spot_vwma"] = sf["i_vwma_align"]
             else:
                 merged.update({"i_spot_ichi": False, "i_spot_dmi": False, "i_spot_cmf": False, "i_spot_vwma": False})
