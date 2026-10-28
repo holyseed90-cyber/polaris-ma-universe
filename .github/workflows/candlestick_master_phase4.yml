@@ -45,9 +45,7 @@ jobs:
           python -m py_compile research/candlestick_master/candle_master_phase4.py
 
       - name: Run composite score and nested walk-forward research
-        run: |
-          cd research/candlestick_master
-          python candle_master_phase4.py
+        run: python research/candlestick_master/candle_master_phase4.py
 
       - name: Upload Phase 4 artifact
         uses: actions/upload-artifact@v4
