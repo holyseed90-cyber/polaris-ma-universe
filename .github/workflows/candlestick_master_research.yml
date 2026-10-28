@@ -1,0 +1,59 @@
+name: BTC Candlestick Master Research
+
+on:
+  push:
+    branches:
+      - research/candlestick-master
+    paths:
+      - ".github/workflows/candlestick_master_research.yml"
+      - "research/candlestick_master/candle_master_research.py.gz"
+      - "research/candlestick_master/requirements.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          ref: research/candlestick-master
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r research/candlestick_master/requirements.txt
+
+      - name: Restore research engine
+        run: gzip -dc research/candlestick_master/candle_master_research.py.gz > research/candlestick_master/candle_master_research.py
+
+      - name: Run 2018-present multi-timeframe candlestick study
+        run: python research/candlestick_master/candle_master_research.py
+
+      - name: Upload full research artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-candlestick-master-results
+          path: research/candlestick_master/output/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit reproducible results
+        run: |
+          git config user.name "candlestick-research-bot"
+          git config user.email "candlestick-research-bot@users.noreply.github.com"
+          git add research/candlestick_master/output/
+          if git diff --cached --quiet; then
+            echo "No result changes"
+          else
+            git commit -m "research: update BTC candlestick study results [skip ci]"
+            git push origin HEAD:research/candlestick-master
+          fi
