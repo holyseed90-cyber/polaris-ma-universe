@@ -6,7 +6,7 @@ on:
       - research/candlestick-master
     paths:
       - ".github/workflows/candlestick_master_phase2.yml"
-      - "research/candlestick_master/candle_master_phase2.py.gz"
+      - "research/candlestick_master/phase2_parts/**"
       - "research/candlestick_master/requirements.txt"
   workflow_dispatch:
 
@@ -34,7 +34,10 @@ jobs:
         run: pip install -r research/candlestick_master/requirements.txt
 
       - name: Restore phase 2 engine
-        run: gzip -dc research/candlestick_master/candle_master_phase2.py.gz > research/candlestick_master/candle_master_phase2.py
+        run: cat research/candlestick_master/phase2_parts/part_*.py > research/candlestick_master/candle_master_phase2.py
+
+      - name: Syntax check
+        run: python -m py_compile research/candlestick_master/candle_master_phase2.py
 
       - name: Run sequence and first-passage research
         run: python research/candlestick_master/candle_master_phase2.py
