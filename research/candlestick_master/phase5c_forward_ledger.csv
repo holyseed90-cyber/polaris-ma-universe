@@ -1,0 +1,1 @@
+record_type,candidate_id,control_arm,signal_time_utc,entry_time_utc,exit_time_utc,status,signal_close,atr14,plus_di14,minus_di14,adx14,vwma20,vwma20_3bars_ago,rolling_low20,touch_count20,close_location,entry_price,target_price,stop_price,exit_price,outcome,gross_return_pct,net_return_30bps_pct,net_return_50bps_pct,suppression_reason,source_bar_hash_or_identifier,notes
