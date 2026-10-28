@@ -32,12 +32,20 @@ def add_consensus(events: pd.DataFrame) -> pd.DataFrame:
         z = e.loc[positions].copy()
         hours = p3.TIMEFRAMES[keys[0]]["hours"]
         times = z.signal_time.astype("int64").to_numpy()
-        venues = z.venue.to_numpy()
-        out = np.ones(len(z), dtype=int)
+        venues = z.venue.astype(str).to_numpy()
         tol = int(pd.Timedelta(hours=hours).value)
+        by_venue = {
+            venue: np.sort(times[venues == venue])
+            for venue in np.unique(venues)
+        }
+        out = np.ones(len(z), dtype=int)
         for k, t in enumerate(times):
-            near = np.abs(times - t) <= tol
-            out[k] = len(set(venues[near]))
+            count = 0
+            for arr in by_venue.values():
+                left = np.searchsorted(arr, t - tol, side="left")
+                right = np.searchsorted(arr, t + tol, side="right")
+                count += int(right > left)
+            out[k] = count
         e.loc[positions, "consensus_near"] = out
     e["consensus_bin"] = e.consensus_near.map(count_bin)
     e["event_id"] = np.arange(len(e), dtype=int)
