@@ -1,0 +1,36 @@
+name: Fetch Bondweb Research PDF
+
+on:
+  push:
+    branches:
+      - research/candlestick-master
+    paths:
+      - ".github/workflows/fetch_bondweb_pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Download linked PDF
+        run: |
+          mkdir -p source_pdf
+          curl --fail --location --retry 4 --retry-all-errors \
+            --user-agent "Mozilla/5.0" \
+            "https://www.bondweb.co.kr/data/menu01/2011051313445601.pdf" \
+            --output source_pdf/bondweb_2011051313445601.pdf
+          test "$(stat -c%s source_pdf/bondweb_2011051313445601.pdf)" -gt 1000000
+          file source_pdf/bondweb_2011051313445601.pdf
+          sha256sum source_pdf/bondweb_2011051313445601.pdf > source_pdf/SHA256SUMS.txt
+
+      - name: Upload source PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: bondweb-source-pdf
+          path: source_pdf/
+          if-no-files-found: error
+          retention-days: 30
