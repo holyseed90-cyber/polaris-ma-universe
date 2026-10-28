@@ -1,4 +1,15 @@
     model = fit_woe(train)
+    contribution_rows = []
+    for feature, mapping in model.contributions.items():
+        for value, contribution in mapping.items():
+            contribution_rows.append({
+                "fold": fold["fold"], "timeframe": tf, "side": side,
+                "feature": feature, "value": value,
+                "raw_contribution": contribution,
+                "scaled_contribution": contribution * model.scale,
+                "global_log_odds": model.global_log_odds,
+            })
+    contribution_table = pd.DataFrame(contribution_rows)
     validation["prob"] = model.predict(validation)
     threshold, threshold_table = choose_threshold(validation, validation.prob.to_numpy(), tf)
     test["prob"] = model.predict(test)
@@ -16,7 +27,7 @@
     }
     test["fold"] = fold["fold"]
     test["threshold"] = threshold
-    return test, result, config_table.assign(fold=fold["fold"], timeframe=tf, side=side), threshold_table.assign(fold=fold["fold"], timeframe=tf, side=side, config_id=config_id)
+    return test, result, config_table.assign(fold=fold["fold"], timeframe=tf, side=side), threshold_table.assign(fold=fold["fold"], timeframe=tf, side=side, config_id=config_id), contribution_table
 
 
 def calibration_table(scored: pd.DataFrame) -> pd.DataFrame:
