@@ -1,0 +1,67 @@
+{
+  "freeze_timestamp_utc": "2026-10-28T19:00:00Z",
+  "status": "RESEARCH_ONLY_WAIT",
+  "primary_venue": "BINANCE:BTCUSDT.P",
+  "confirmation_venue": "BINANCE:BTCUSDT",
+  "rules": [
+    {
+      "id": "A_D1_SHORT_HIGH_SWEEP_RSI_FULL_MA",
+      "timeframe": "1D",
+      "side": "SHORT",
+      "conditions": [
+        "high_sweep_20",
+        "RSI14 >= 60",
+        "RSI14 < 70",
+        "SMA 5,10,20,60,112,224,448,896 all available"
+      ],
+      "target_atr": 0.25,
+      "stop_atr": 1.25,
+      "max_hold_bars": 3,
+      "classification": "forward_research_candidate",
+      "historical_warning": "Untouched test n=5 only; global multiple-testing correction failed"
+    },
+    {
+      "id": "B_4H_SHORT_3X_BREAK_VOLUME",
+      "timeframe": "4H",
+      "side": "SHORT",
+      "conditions": [
+        "bearish body >= 3x prior-14 average body",
+        "close below prior candle low",
+        "close in lower 30% of candle range",
+        "volume >= 1.2x rolling-20 median"
+      ],
+      "target_atr": 0.75,
+      "stop_atr": 1.0,
+      "max_hold_bars": 8,
+      "classification": "forward_research_candidate",
+      "historical_warning": "Untouched test n=5 only"
+    },
+    {
+      "id": "C_D1_LONG_THREE_TAP_NEGATIVE_CONTROL",
+      "timeframe": "1D",
+      "side": "LONG",
+      "conditions": [
+        "three lower-range taps in prior 20 bars",
+        "close above prior candle high",
+        "close in upper 30% of candle range"
+      ],
+      "target_atr": 0.25,
+      "stop_atr": 1.25,
+      "max_hold_bars": 3,
+      "classification": "negative_control_not_trade_signal",
+      "historical_warning": "2026-only 95.65% result; training and validation expectancy were negative"
+    }
+  ],
+  "cost_stress_bps": [30, 50],
+  "promotion_gate": {
+    "minimum_4h_independent_trades": 30,
+    "minimum_1d_independent_trades": 15,
+    "target_hit_rate": 0.90,
+    "wilson_95_lower_bound": 0.75,
+    "mean_net_at_50bps_gt": 0,
+    "profit_factor_at_50bps_gte": 1.5,
+    "minimum_distinct_future_windows": 2
+  },
+  "live_label_until_all_gates_pass": "WAIT",
+  "rule_change_policy": "Any rule or threshold change restarts the forward audit from zero"
+}
