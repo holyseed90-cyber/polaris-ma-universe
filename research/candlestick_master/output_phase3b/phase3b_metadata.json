@@ -1,0 +1,16 @@
+{
+  "phase": "3B",
+  "source": "Bondweb 2011 technical-analysis curriculum",
+  "generated_utc": "2026-10-28T16:23:33.907367+00:00",
+  "bars": {
+    "1h": 76052,
+    "4h": 19028,
+    "12h": 6347,
+    "1d": 3174
+  },
+  "events_tested": 424,
+  "stable_events": 11,
+  "touch_rows": 56,
+  "ladder_rows": 360,
+  "claim_rows": 5
+}
