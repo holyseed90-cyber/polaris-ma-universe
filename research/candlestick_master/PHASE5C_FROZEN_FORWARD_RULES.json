@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_utc": "2026-10-28T19:45:21Z",
+  "research_status": "forward_paper_validation_only",
+  "live_label_until_all_gates_pass": "WAIT",
+  "execution_venue": "BINANCE:BTCUSDT.P",
+  "confirmation_venue": "BINANCE:BTCUSDT",
+  "data_policy": {
+    "completed_bars_only": true,
+    "no_repainting": true,
+    "no_rule_edits_after_freeze": true,
+    "rule_edit_resets_sample_to_zero": true,
+    "entry_uses_next_bar_open": true,
+    "same_bar_target_and_stop": "count_as_stop",
+    "overlapping_positions": "suppress_new_entry_and_log_suppressed_signal"
+  },
+  "candidate": {
+    "candidate_id": "P5C_D1_LONG_3TAP_DMI_VWMA",
+    "side": "long",
+    "timeframe": "1d",
+    "signal_evaluation_time": "after the Binance perpetual daily candle is fully closed",
+    "base_pattern": {
+      "name": "bull_three_tap_break",
+      "lookback_bars": 20,
+      "low_touch_definition": "abs(low - rolling_min_low_20) <= 0.25 * ATR14",
+      "minimum_touch_count_within_20_bars": 3,
+      "break_confirmation": "close > previous_bar_high",
+      "minimum_close_location": 0.70,
+      "close_location_formula": "(close - low) / (high - low)"
+    },
+    "dmi_filter": {
+      "period": 14,
+      "method": "Wilder",
+      "condition": "+DI > -DI",
+      "adx_minimum": null,
+      "note": "The frozen historical winner used directional DMI alignment, not an added ADX threshold."
+    },
+    "vwma_filter": {
+      "period": 20,
+      "conditions": [
+        "close > VWMA20",
+        "VWMA20 > VWMA20[3]"
+      ]
+    },
+    "entry": "next Binance perpetual daily bar open",
+    "atr_reference": "ATR14 from the completed signal bar",
+    "target_atr_multiple": 1.0,
+    "stop_atr_multiple": 1.0,
+    "maximum_holding_bars": 7,
+    "round_trip_cost_bps": [30, 50]
+  },
+  "frozen_control_arms": [
+    {
+      "control_id": "BASE_ONLY",
+      "conditions": ["bull_three_tap_break"]
+    },
+    {
+      "control_id": "BASE_DMI",
+      "conditions": ["bull_three_tap_break", "+DI > -DI"]
+    },
+    {
+      "control_id": "BASE_VWMA",
+      "conditions": ["bull_three_tap_break", "close > VWMA20", "VWMA20 > VWMA20[3]"]
+    },
+    {
+      "control_id": "FULL_DMI_VWMA",
+      "conditions": ["bull_three_tap_break", "+DI > -DI", "close > VWMA20", "VWMA20 > VWMA20[3]"]
+    }
+  ],
+  "promotion_gates": {
+    "minimum_independent_full_rule_events": 15,
+    "minimum_target_hit_rate": 0.90,
+    "minimum_wilson_95_lower_bound": 0.75,
+    "minimum_mean_net_return_at_50bps": 0.0,
+    "minimum_profit_factor_at_50bps": 1.5,
+    "minimum_distinct_positive_calendar_quarters": 2,
+    "minimum_full_rule_target_rate_lift_vs_base": 0.05,
+    "minimum_full_rule_mean_net_50bps_lift_vs_base_pct": 0.10,
+    "all_gates_required": true
+  },
+  "required_ledger_fields": [
+    "record_type",
+    "candidate_id",
+    "control_arm",
+    "signal_time_utc",
+    "entry_time_utc",
+    "exit_time_utc",
+    "status",
+    "signal_close",
+    "atr14",
+    "plus_di14",
+    "minus_di14",
+    "adx14",
+    "vwma20",
+    "vwma20_3bars_ago",
+    "rolling_low20",
+    "touch_count20",
+    "close_location",
+    "entry_price",
+    "target_price",
+    "stop_price",
+    "exit_price",
+    "outcome",
+    "gross_return_pct",
+    "net_return_30bps_pct",
+    "net_return_50bps_pct",
+    "suppression_reason",
+    "source_bar_hash_or_identifier",
+    "notes"
+  ]
+}
