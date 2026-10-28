@@ -1,0 +1,7 @@
+metric,value
+common_hours,59777.0
+median_basis_bps,-3.7655987588081086
+p95_abs_basis_bps,10.548933768367734
+median_spot_range_pct,0.6284195160160884
+median_perp_range_pct,0.6388092785432886
+p95_perp_to_spot_range_ratio,1.1128976334586123
