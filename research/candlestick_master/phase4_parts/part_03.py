@@ -4,20 +4,34 @@
 def choose_config(events: pd.DataFrame, cache: dict, tf: str, side: str, fold: dict) -> tuple[str, pd.DataFrame]:
     base = events[(events.timeframe == tf) & (events.side == side)][["event_id", "signal_time"]]
     rows: list[dict] = []
-    min_train = {"1h": 120, "4h": 50, "12h": 20, "1d": 8}[tf]
-    min_val = {"1h": 40, "4h": 20, "12h": 8, "1d": 4}[tf]
+    min_train = {"1h": 100, "4h": 40, "12h": 16, "1d": 6}[tf]
+    min_val = {"1h": 30, "4h": 14, "12h": 6, "1d": 3}[tf]
+
+    # True nested selection: the target/stop/holding configuration is tuned on
+    # an inner validation year contained entirely inside the outer training
+    # period.  The outer validation year remains untouched for score-threshold
+    # selection, and the following year remains the final test.
+    inner_validation_end = utc(fold["train_end"])
+    inner_validation_start = inner_validation_end - pd.DateOffset(years=1)
+    inner_train_start = utc(fold["train_start"])
+
     for key, sim in cache.items():
         if key[0] != tf or key[1] != side or sim.empty:
             continue
         z = base.merge(sim[["event_id", "net_pct"]], on="event_id", how="inner")
-        tr = z[period_mask(z.signal_time, fold["train_start"], fold["train_end"])]
-        va = z[period_mask(z.signal_time, fold["validation_start"], fold["validation_end"])]
+        tr = z[(pd.to_datetime(z.signal_time, utc=True) >= inner_train_start) & (pd.to_datetime(z.signal_time, utc=True) < inner_validation_start)]
+        va = z[(pd.to_datetime(z.signal_time, utc=True) >= inner_validation_start) & (pd.to_datetime(z.signal_time, utc=True) < inner_validation_end)]
         if len(tr) < min_train or len(va) < min_val:
             continue
         tr_lcb, va_lcb = mean_lcb(tr.net_pct), mean_lcb(va.net_pct)
         objective = min(tr_lcb, va_lcb) + 0.15 * min(float(tr.net_pct.mean()), float(va.net_pct.mean()))
         rows.append({
-            "config_id": key[2], "train_n": len(tr), "validation_n": len(va),
+            "config_id": key[2],
+            "inner_train_start": inner_train_start,
+            "inner_train_end": inner_validation_start,
+            "inner_validation_start": inner_validation_start,
+            "inner_validation_end": inner_validation_end,
+            "train_n": len(tr), "validation_n": len(va),
             "train_mean": tr.net_pct.mean(), "validation_mean": va.net_pct.mean(),
             "train_lcb": tr_lcb, "validation_lcb": va_lcb,
             "train_pf": safe_pf(tr.net_pct), "validation_pf": safe_pf(va.net_pct),
