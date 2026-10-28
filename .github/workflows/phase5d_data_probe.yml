@@ -1,0 +1,38 @@
+name: Phase 5D Binance Archive Probe
+
+on:
+  push:
+    branches:
+      - research/candlestick-master-phase5d
+    paths:
+      - ".github/workflows/phase5d_data_probe.yml"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Probe official Binance Vision files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p probe
+          urls=(
+            "https://data.binance.vision/data/futures/um/daily/metrics/BTCUSDT/BTCUSDT-metrics-2024-01-02.zip"
+            "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDT/BTCUSDT-fundingRate-2024-01.zip"
+            "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-01.zip"
+            "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-01.zip"
+            "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/BTCUSDT/BTCUSDT-liquidationSnapshot-2024-01-02.zip"
+          )
+          i=0
+          for u in "${urls[@]}"; do
+            i=$((i+1))
+            echo "===== $u"
+            code=$(curl -L -sS -w '%{http_code}' -o "probe/$i.zip" "$u" || true)
+            echo "HTTP=$code size=$(stat -c%s "probe/$i.zip" 2>/dev/null || echo 0)"
+            if [ "$code" = "200" ]; then
+              unzip -l "probe/$i.zip" | head
+              unzip -p "probe/$i.zip" | head -n 5
+            fi
+          done
