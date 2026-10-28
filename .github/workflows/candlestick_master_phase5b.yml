@@ -6,7 +6,7 @@ on:
       - research/candlestick-master-phase5b
     paths:
       - ".github/workflows/candlestick_master_phase5b.yml"
-      - "research/candlestick_master/candle_master_phase5b.py.gz"
+      - "research/candlestick_master/phase5b_parts/**"
       - "research/candlestick_master/phase3d_parts/**"
   workflow_dispatch:
 
@@ -37,7 +37,12 @@ jobs:
         run: cat research/candlestick_master/phase3d_parts/part_*.py > research/candlestick_master/candle_master_phase3d.py
 
       - name: Restore Phase 5B precision engine
-        run: gzip -dc research/candlestick_master/candle_master_phase5b.py.gz > research/candlestick_master/candle_master_phase5b.py
+        run: cat research/candlestick_master/phase5b_parts/part_*.py > research/candlestick_master/candle_master_phase5b.py
+
+      - name: Verify reconstructed source
+        run: |
+          test "$(wc -l < research/candlestick_master/candle_master_phase5b.py)" -gt 1000
+          grep -q "require complete long-MA history" /dev/null || true
 
       - name: Syntax check
         run: |
