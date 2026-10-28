@@ -19,8 +19,9 @@ def choose_config(events: pd.DataFrame, cache: dict, tf: str, side: str, fold: d
         if key[0] != tf or key[1] != side or sim.empty:
             continue
         z = base.merge(sim[["event_id", "net_pct"]], on="event_id", how="inner")
-        tr = z[(pd.to_datetime(z.signal_time, utc=True) >= inner_train_start) & (pd.to_datetime(z.signal_time, utc=True) < inner_validation_start)]
-        va = z[(pd.to_datetime(z.signal_time, utc=True) >= inner_validation_start) & (pd.to_datetime(z.signal_time, utc=True) < inner_validation_end)]
+        timestamps = pd.to_datetime(z.signal_time, utc=True)
+        tr = z[(timestamps >= inner_train_start) & (timestamps < inner_validation_start)]
+        va = z[(timestamps >= inner_validation_start) & (timestamps < inner_validation_end)]
         if len(tr) < min_train or len(va) < min_val:
             continue
         tr_lcb, va_lcb = mean_lcb(tr.net_pct), mean_lcb(va.net_pct)
@@ -78,9 +79,12 @@ def fit_woe(frame: pd.DataFrame, label_col: str = "positive") -> WOEModel:
 
 
 def threshold_candidates(pred: np.ndarray) -> list[float]:
-    fixed = [0.50, 0.525, 0.55, 0.575, 0.60, 0.625, 0.65, 0.675, 0.70, 0.725, 0.75]
-    quantiles = [float(x) for x in np.quantile(pred, [0.50, 0.60, 0.70, 0.80, 0.90]) if np.isfinite(x)] if len(pred) else []
-    return sorted(set(round(x, 4) for x in fixed + quantiles if 0.48 <= x <= 0.85))
+    # A profitable asymmetric 1.5–2.0 ATR target configuration can have a
+    # positive expectancy below a 50% win probability.  Therefore thresholds
+    # are selected by validation expectancy rather than hard-coded at 0.50+.
+    fixed = [0.30, 0.35, 0.40, 0.425, 0.45, 0.475, 0.50, 0.525, 0.55, 0.575, 0.60, 0.625, 0.65, 0.675, 0.70, 0.725, 0.75]
+    quantiles = [float(x) for x in np.quantile(pred, [0.40, 0.50, 0.60, 0.70, 0.80, 0.90]) if np.isfinite(x)] if len(pred) else []
+    return sorted(set(round(x, 4) for x in fixed + quantiles if 0.25 <= x <= 0.85))
 
 
 def choose_threshold(validation: pd.DataFrame, pred: np.ndarray, tf: str) -> tuple[float, pd.DataFrame]:
