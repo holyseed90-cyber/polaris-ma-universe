@@ -1,0 +1,236 @@
+{
+  "pat_doji": {
+    "name": "doji",
+    "family": "single",
+    "direction": "neutral",
+    "source_label": "도지"
+  },
+  "pat_dragonfly_doji": {
+    "name": "dragonfly_doji",
+    "family": "single",
+    "direction": "bullish",
+    "source_label": "잠자리형 도지"
+  },
+  "pat_gravestone_doji": {
+    "name": "gravestone_doji",
+    "family": "single",
+    "direction": "bearish",
+    "source_label": "비석형 도지"
+  },
+  "pat_bull_marubozu": {
+    "name": "bull_marubozu",
+    "family": "single",
+    "direction": "bullish",
+    "source_label": "장대양봉"
+  },
+  "pat_bear_marubozu": {
+    "name": "bear_marubozu",
+    "family": "single",
+    "direction": "bearish",
+    "source_label": "장대음봉"
+  },
+  "pat_spinning_top": {
+    "name": "spinning_top",
+    "family": "single",
+    "direction": "neutral",
+    "source_label": "팽이형"
+  },
+  "pat_hammer": {
+    "name": "hammer",
+    "family": "single",
+    "direction": "bullish",
+    "source_label": "망치형"
+  },
+  "pat_hanging_man": {
+    "name": "hanging_man",
+    "family": "single",
+    "direction": "bearish",
+    "source_label": "교수형"
+  },
+  "pat_inverted_hammer": {
+    "name": "inverted_hammer",
+    "family": "single",
+    "direction": "bullish",
+    "source_label": "역망치형"
+  },
+  "pat_shooting_star": {
+    "name": "shooting_star",
+    "family": "single",
+    "direction": "bearish",
+    "source_label": "유성형"
+  },
+  "pat_bull_engulfing": {
+    "name": "bull_engulfing",
+    "family": "two",
+    "direction": "bullish",
+    "source_label": "상승 장악형"
+  },
+  "pat_bear_engulfing": {
+    "name": "bear_engulfing",
+    "family": "two",
+    "direction": "bearish",
+    "source_label": "하락 장악형"
+  },
+  "pat_bull_harami": {
+    "name": "bull_harami",
+    "family": "two",
+    "direction": "bullish",
+    "source_label": "상승 잉태형"
+  },
+  "pat_bear_harami": {
+    "name": "bear_harami",
+    "family": "two",
+    "direction": "bearish",
+    "source_label": "하락 잉태형"
+  },
+  "pat_piercing": {
+    "name": "piercing",
+    "family": "two",
+    "direction": "bullish",
+    "source_label": "상승 관통형"
+  },
+  "pat_dark_cloud": {
+    "name": "dark_cloud",
+    "family": "two",
+    "direction": "bearish",
+    "source_label": "흑운형"
+  },
+  "pat_bull_railroad": {
+    "name": "bull_railroad",
+    "family": "two",
+    "direction": "bullish",
+    "source_label": "상승 철길"
+  },
+  "pat_bear_railroad": {
+    "name": "bear_railroad",
+    "family": "two",
+    "direction": "bearish",
+    "source_label": "하락 철길"
+  },
+  "pat_tweezer_bottom": {
+    "name": "tweezer_bottom",
+    "family": "two",
+    "direction": "bullish",
+    "source_label": "트위저 바닥"
+  },
+  "pat_tweezer_top": {
+    "name": "tweezer_top",
+    "family": "two",
+    "direction": "bearish",
+    "source_label": "트위저 천장"
+  },
+  "pat_morning_star": {
+    "name": "morning_star",
+    "family": "three",
+    "direction": "bullish",
+    "source_label": "샛별형"
+  },
+  "pat_evening_star": {
+    "name": "evening_star",
+    "family": "three",
+    "direction": "bearish",
+    "source_label": "석별형"
+  },
+  "pat_three_white_soldiers": {
+    "name": "three_white_soldiers",
+    "family": "three",
+    "direction": "bullish",
+    "source_label": "적삼병"
+  },
+  "pat_three_black_crows": {
+    "name": "three_black_crows",
+    "family": "three",
+    "direction": "bearish",
+    "source_label": "흑삼병"
+  },
+  "pat_three_inside_up": {
+    "name": "three_inside_up",
+    "family": "three",
+    "direction": "bullish",
+    "source_label": "상승 잉태 확인형"
+  },
+  "pat_three_inside_down": {
+    "name": "three_inside_down",
+    "family": "three",
+    "direction": "bearish",
+    "source_label": "하락 잉태 확인형"
+  },
+  "pat_three_outside_up": {
+    "name": "three_outside_up",
+    "family": "three",
+    "direction": "bullish",
+    "source_label": "상승 장악 확인형"
+  },
+  "pat_three_outside_down": {
+    "name": "three_outside_down",
+    "family": "three",
+    "direction": "bearish",
+    "source_label": "하락 장악 확인형"
+  },
+  "pat_rising_three_methods": {
+    "name": "rising_three_methods",
+    "family": "five",
+    "direction": "bullish",
+    "source_label": "상승 삼법형"
+  },
+  "pat_falling_three_methods": {
+    "name": "falling_three_methods",
+    "family": "five",
+    "direction": "bearish",
+    "source_label": "하락 삼법형"
+  },
+  "pat_inside_bar": {
+    "name": "inside_bar",
+    "family": "price_action",
+    "direction": "neutral",
+    "source_label": "인사이드 바"
+  },
+  "pat_outside_bar_bull": {
+    "name": "outside_bar_bull",
+    "family": "price_action",
+    "direction": "bullish",
+    "source_label": "상승 아웃사이드 바"
+  },
+  "pat_outside_bar_bear": {
+    "name": "outside_bar_bear",
+    "family": "price_action",
+    "direction": "bearish",
+    "source_label": "하락 아웃사이드 바"
+  },
+  "pat_bull_sweep20": {
+    "name": "bull_sweep20",
+    "family": "liquidity",
+    "direction": "bullish",
+    "source_label": "20봉 저점 유동성 스윕"
+  },
+  "pat_bear_sweep20": {
+    "name": "bear_sweep20",
+    "family": "liquidity",
+    "direction": "bearish",
+    "source_label": "20봉 고점 유동성 스윕"
+  },
+  "pat_bull_breakout20": {
+    "name": "bull_breakout20",
+    "family": "structure",
+    "direction": "bullish",
+    "source_label": "20봉 고점 종가 돌파"
+  },
+  "pat_bear_breakdown20": {
+    "name": "bear_breakdown20",
+    "family": "structure",
+    "direction": "bearish",
+    "source_label": "20봉 저점 종가 이탈"
+  },
+  "pat_bull_rejection": {
+    "name": "bull_rejection",
+    "family": "rejection",
+    "direction": "bullish",
+    "source_label": "상승 리젝션"
+  },
+  "pat_bear_rejection": {
+    "name": "bear_rejection",
+    "family": "rejection",
+    "direction": "bearish",
+    "source_label": "하락 리젝션"
+  }
+}
