@@ -1,0 +1,61 @@
+name: BTC Candlestick Master Phase 5C Indicator Audit
+
+on:
+  push:
+    branches:
+      - research/candlestick-master-phase5c
+    paths:
+      - ".github/workflows/candlestick_master_phase5c.yml"
+      - "research/candlestick_master/phase5c_parts/**"
+      - "research/candlestick_master/phase5b_parts/**"
+      - "research/candlestick_master/phase3d_parts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  indicator-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+
+    steps:
+      - name: Checkout Phase 5C branch
+        uses: actions/checkout@v4
+        with:
+          ref: research/candlestick-master-phase5c
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install "numpy>=2.0,<3" "pandas>=2.2,<3" "requests>=2.32,<3" "scipy>=1.14,<2" "tabulate>=0.9,<1"
+
+      - name: Reconstruct research engines
+        run: |
+          cat research/candlestick_master/phase3d_parts/part_*.py > research/candlestick_master/candle_master_phase3d.py
+          cat research/candlestick_master/phase5b_parts/part_*.py > research/candlestick_master/candle_master_phase5b.py
+          cat research/candlestick_master/phase5c_parts/part_*.py > research/candlestick_master/candle_master_phase5c.py
+
+      - name: Verify Phase 5C source
+        run: echo "5425818bcd90f9f8c28aad6b82afdf8009b8ba4b901a5d229981bfc0b5439644  research/candlestick_master/candle_master_phase5c.py" | sha256sum -c -
+
+      - name: Syntax check
+        run: |
+          python -m py_compile research/candlestick_master/candle_master_phase3d.py
+          python -m py_compile research/candlestick_master/candle_master_phase5b.py
+          python -m py_compile research/candlestick_master/candle_master_phase5c.py
+
+      - name: Run indicator increment audit
+        run: python research/candlestick_master/candle_master_phase5c.py
+
+      - name: Upload Phase 5C artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-candlestick-master-phase5c
+          path: research/candlestick_master/output_phase5c/
+          if-no-files-found: error
+          retention-days: 30
