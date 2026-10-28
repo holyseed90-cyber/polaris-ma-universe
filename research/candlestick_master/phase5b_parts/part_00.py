@@ -48,15 +48,20 @@ CONTEXT_TFS = {
     "12h": {"rule": "12h", "hours": 12, "pivot_right": 2},
     "1d": {"rule": "1D", "hours": 24, "pivot_right": 2},
 }
-# Pre-registered precision configurations.  They are not optimized on the final test.
+# Pre-registered precision configurations.  Quarter-ATR targets are included only
+# to measure the win-rate ceiling and must still pass 50-bps expectancy/PF gates.
 CONFIGS = {
     "4h": [
+        {"config_id": "P025_S10_H6", "target": 0.25, "stop": 1.00, "hold": 6},
+        {"config_id": "P025_S125_H6", "target": 0.25, "stop": 1.25, "hold": 6},
         {"config_id": "P05_S10_H6", "target": 0.50, "stop": 1.00, "hold": 6},
         {"config_id": "P05_S125_H6", "target": 0.50, "stop": 1.25, "hold": 6},
         {"config_id": "P075_S10_H8", "target": 0.75, "stop": 1.00, "hold": 8},
         {"config_id": "P10_S10_H8", "target": 1.00, "stop": 1.00, "hold": 8},
     ],
     "1d": [
+        {"config_id": "P025_S10_H3", "target": 0.25, "stop": 1.00, "hold": 3},
+        {"config_id": "P025_S125_H3", "target": 0.25, "stop": 1.25, "hold": 3},
         {"config_id": "P05_S10_H3", "target": 0.50, "stop": 1.00, "hold": 3},
         {"config_id": "P05_S125_H3", "target": 0.50, "stop": 1.25, "hold": 3},
         {"config_id": "P075_S10_H5", "target": 0.75, "stop": 1.00, "hold": 5},
