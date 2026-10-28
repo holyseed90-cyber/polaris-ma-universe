@@ -29,10 +29,11 @@ def main() -> None:
     fold_rows: list[dict] = []
     config_tables: list[pd.DataFrame] = []
     threshold_tables: list[pd.DataFrame] = []
+    contribution_tables: list[pd.DataFrame] = []
     for fold in FOLDS:
         for tf in p3.TIMEFRAMES:
             for side in ["long", "short"]:
-                scored, result, ctable, ttable = fold_score(events, cache, tf, side, fold)
+                scored, result, ctable, ttable, contributions = fold_score(events, cache, tf, side, fold)
                 if not scored.empty:
                     scored_parts.append(scored)
                 if result:
@@ -41,11 +42,14 @@ def main() -> None:
                     config_tables.append(ctable)
                 if not ttable.empty:
                     threshold_tables.append(ttable)
+                if not contributions.empty:
+                    contribution_tables.append(contributions)
 
     scored = pd.concat(scored_parts, ignore_index=True) if scored_parts else pd.DataFrame()
     fold_summary = pd.DataFrame(fold_rows)
     configs = pd.concat(config_tables, ignore_index=True) if config_tables else pd.DataFrame()
     thresholds = pd.concat(threshold_tables, ignore_index=True) if threshold_tables else pd.DataFrame()
+    contributions = pd.concat(contribution_tables, ignore_index=True) if contribution_tables else pd.DataFrame()
     calibration = calibration_table(scored)
     portfolio = strict_portfolio(scored)
     portfolio_metrics = pd.DataFrame([metrics(portfolio)]) if not portfolio.empty else pd.DataFrame()
@@ -55,6 +59,7 @@ def main() -> None:
     fold_summary.to_csv(OUT / "walkforward_fold_summary.csv", index=False)
     configs.to_csv(OUT / "config_selection_audit.csv", index=False)
     thresholds.to_csv(OUT / "threshold_selection_audit.csv", index=False)
+    contributions.to_csv(OUT / "score_contributions.csv", index=False)
     calibration.to_csv(OUT / "score_calibration_bh.csv", index=False)
     portfolio.to_csv(OUT / "strict_no_overlap_portfolio.csv", index=False)
     portfolio_metrics.to_csv(OUT / "strict_no_overlap_metrics.csv", index=False)
@@ -69,6 +74,7 @@ def main() -> None:
         "walkforward_scored_rows": int(len(scored)),
         "selected_rows": int(scored.selected.sum()) if not scored.empty else 0,
         "portfolio_rows": int(len(portfolio)),
+        "contribution_rows": int(len(contributions)),
         "folds": [f["fold"] for f in FOLDS],
         "progress_completed_pct": 83,
         "progress_remaining_pct": 17,
