@@ -1,4 +1,4 @@
-                        for feature in rule:
+                       for feature in rule:
                                 filt &= test[feature]
                             chosen = test[test[base_col] & filt].copy()
                             if chosen.empty:
