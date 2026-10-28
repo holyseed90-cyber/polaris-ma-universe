@@ -97,14 +97,14 @@ def attach_simulation(events: pd.DataFrame, sim: pd.DataFrame) -> pd.DataFrame:
     return z
 
 
-def fold_score(events: pd.DataFrame, cache: dict, tf: str, side: str, fold: dict) -> tuple[pd.DataFrame, dict, pd.DataFrame, pd.DataFrame]:
+def fold_score(events: pd.DataFrame, cache: dict, tf: str, side: str, fold: dict) -> tuple[pd.DataFrame, dict, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     config_id, config_table = choose_config(events, cache, tf, side, fold)
     sim = cache.get((tf, side, config_id), pd.DataFrame())
     if sim.empty:
-        return pd.DataFrame(), {}, config_table, pd.DataFrame()
+        return pd.DataFrame(), {}, config_table, pd.DataFrame(), pd.DataFrame()
     z = attach_simulation(events[(events.timeframe == tf) & (events.side == side)], sim)
     train = z[period_mask(z.signal_time, fold["train_start"], fold["train_end"])].copy()
     validation = z[period_mask(z.signal_time, fold["validation_start"], fold["validation_end"])].copy()
     test = z[period_mask(z.signal_time, fold["test_start"], fold["test_end"])].copy()
     if len(train) < 20 or validation.empty or test.empty:
-        return pd.DataFrame(), {}, config_table, pd.DataFrame()
+        return pd.DataFrame(), {}, config_table, pd.DataFrame(), pd.DataFrame()
