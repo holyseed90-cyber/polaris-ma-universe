@@ -22,7 +22,14 @@ def main() -> None:
         frames = resampled_frames(hourly)
         all_frames[venue] = frames
         event_parts.append(build_events_for_venue(venue, frames))
-    events = add_consensus(pd.concat(event_parts, ignore_index=True))
+
+    # Venue agreement is computed across all markets first.  The fitted outcome
+    # model then uses one canonical venue only, so the same BTC move is not
+    # counted four times as four independent training observations.
+    all_events = add_consensus(pd.concat(event_parts, ignore_index=True))
+    canonical_venue = "binance_spot" if "binance_spot" in venues else sorted(venues)[0]
+    events = all_events[all_events.venue == canonical_venue].copy().reset_index(drop=True)
+    events["event_id"] = np.arange(len(events), dtype=int)
     cache = config_grid(events, all_frames)
 
     scored_parts: list[pd.DataFrame] = []
@@ -54,7 +61,8 @@ def main() -> None:
     portfolio = strict_portfolio(scored)
     portfolio_metrics = pd.DataFrame([metrics(portfolio)]) if not portfolio.empty else pd.DataFrame()
 
-    events.to_csv(OUT / "event_feature_table.csv", index=False)
+    all_events.to_csv(OUT / "cross_venue_event_feature_table.csv", index=False)
+    events.to_csv(OUT / "model_event_feature_table.csv", index=False)
     scored.to_csv(OUT / "walkforward_scored_events.csv", index=False)
     fold_summary.to_csv(OUT / "walkforward_fold_summary.csv", index=False)
     configs.to_csv(OUT / "config_selection_audit.csv", index=False)
@@ -69,7 +77,9 @@ def main() -> None:
         "phase": "4",
         "generated_utc": pd.Timestamp.now(tz="UTC").isoformat(),
         "venues_loaded": len(venues),
-        "event_rows": int(len(events)),
+        "canonical_model_venue": canonical_venue,
+        "cross_venue_event_rows": int(len(all_events)),
+        "model_event_rows": int(len(events)),
         "configs_cached": int(len(cache)),
         "walkforward_scored_rows": int(len(scored)),
         "selected_rows": int(scored.selected.sum()) if not scored.empty else 0,
