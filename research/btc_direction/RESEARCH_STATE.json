@@ -1,10 +1,11 @@
 {
   "project": "BTC 방향 선행연구 / Polaris Direction Lab",
+  "version": "BTC-DIRECTION-v1.2-20261029",
   "state_date": "2026-10-29",
-  "research_status": "AUDIT_COMPLETE_RAW_DIRECTION_BACKTEST_PENDING",
+  "research_status": "OFFICIAL_RAW_RECOVERED_PAIRED_ENTRY_AND_DIRECTION_BASELINE_EXECUTED_NOT_PROMOTED",
   "live_decision": "NOT_PROMOTED",
   "binding_user_intent": {
-    "ma_periods": [5, 10, 20, 60, 112, 224, 448, 896],
+    "ma_periods": [5,10,20,60,112,224,448,896],
     "exclude_869": true,
     "allow_approximately_1pct_initial_confirmation": true,
     "one_pct_is_not_a_rigid_filter": true,
@@ -13,21 +14,37 @@
     "no_current_price_forecast_required": true
   },
   "research_objective": "First establish BTC 7/14/21-day directional edge; then validate transfer to major coins.",
-  "new_verified_findings": [
-    "linear USDT short return formula mismatch in saved Phase5B outcome ledger",
-    "56,780 outcome rows represent 9,464 unique events, not independent trades",
-    "saved Phase5B economic outcomes extend no further than 7 days, not 14/21-day direction",
-    "fixed triple-tap+DMI+VWMA long/short have different historical behavior; insufficient stability/sample for promotion",
-    "13 synthetic causality/accounting tests pass; no new empirical directional accuracy"
-  ],
-  "next_action": "Restore complete single-venue raw BTC OHLCV; reconstruct signal timestamps and 7/14/21-day paths. No more tuning on stopped-trade outcome tables.",
-  "do_not_repeat": [
-    "869 MA",
-    "BTC or NDX itself must move 30% in 3 weeks",
-    "price may never rise before entry",
-    "reuse target-hit rate as directional accuracy",
-    "claim all future chats automatically load every detail",
-    "claim model trained itself permanently"
-  ],
-  "continuity": "Read START_HERE, state, protocol and last findings before continuing; append decision log and preserve old failures."
+  "raw_data": {
+    "venue": "Binance spot BTCUSDT",
+    "daily_rows": 3360,
+    "four_hour_rows": 20142,
+    "archives_checksum_verified": 276,
+    "missing_four_hour_slots": 17,
+    "imputed": false,
+    "latest_completed_day": "2026-10-28",
+    "library_raw_path": "/BTC 폴라리스 연구/v1.2/BTCUSDT_Official_Raw_20261029.zip",
+    "github_run_id": 40849906211,
+    "artifact_id": 12887120971
+  },
+  "new_results": {
+    "paired_eligible_preparations": 57,
+    "long_preparations": 40,
+    "short_preparations": 17,
+    "long_14day_positive_A_B_C": [0.60,0.5769230769,0.60],
+    "short_14day_positive_A_B_C": [0.4705882353,0.3846153846,0.30],
+    "long_confirmation_B_mean_price_concession_pct": 1.012034,
+    "daily_threeclass_14day_MA_accuracy": 0.4431226766,
+    "daily_threeclass_14day_FULL_accuracy": 0.4535315985,
+    "accuracy_improvement_proven": false,
+    "correctness_tests_passed": 31,
+    "clean_folder_reproduction": "PASS; 8 core output contents identical"
+  },
+  "historical_exposure": "Chronological historical recheck, not genuinely unseen forward validation",
+  "economics_scope": "Spot-path hypothetical long/short; cost proxies, not actual perpetual execution/funding/borrow/leverage returns",
+  "library_package": "/BTC 폴라리스 연구/v1.2/BTC_Direction_Study_v1_2_20261029.zip",
+  "package_sha256": "51884173699b379adbe068a4959198dcfbe946a687501454bde3fd3e72f6c64b",
+  "next_action": "Reuse preserved raw data. Preregister separate regime-transition and reaction-versus-persistence hypotheses; compare multi-bar confirmation and event sampling sensitivity. Do not retune failed rules on inspected outcomes.",
+  "existing_frozen_rules_modified": false,
+  "existing_automations_modified": false,
+  "continuity": "Read latest START_HERE and versioned findings before continuing; preserve old failures and calculation corrections."
 }
