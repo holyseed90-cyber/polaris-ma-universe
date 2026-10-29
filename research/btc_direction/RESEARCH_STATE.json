@@ -1,7 +1,7 @@
 {
   "project": "BTC 방향 선행연구 / Polaris Direction Lab",
-  "version": "BTC-POLARIS-v1.3-20261029",
-  "research_status": "SCREENSHOT_INTERPRETATION_AND_EXPLORATORY_CONDITIONAL_STATS_EXECUTED",
+  "version": "BTC-POLARIS-v1.4-20261029",
+  "research_status": "PAIRED_PATH_EXECUTION_MATCHED_CONTEXT_DYNAMIC_TARGET_STUDY_EXECUTED",
   "live_decision": "NOT_PROMOTED",
   "binding_user_intent": {
     "ma_periods": [5,10,20,60,112,224,448,896],
@@ -10,7 +10,7 @@
     "one_pct_is_not_a_rigid_filter": true,
     "no_BTC_30pct_target_filter": true,
     "long_and_short_separately": true,
-    "probability_first": "Seek conditional statistical and payoff advantage, not certainty. Do not reject just because not100%. Do not assume every named pattern proven profitable. Do not impose old90% gate on every new swing study."
+    "probability_first": "Seek conditional probability and payoff improvement, not certainty. Retain useful hypotheses. Do not impose legacy 90% gate on every new swing study."
   },
   "raw_data": {
     "venue": "Binance spot BTCUSDT",
@@ -20,28 +20,36 @@
     "archives_checksum_verified_this_run": 276,
     "missing_four_hour_slots": 17,
     "imputed": false,
-    "prior_version": "v1.2",
     "library_raw_path": "/BTC 폴라리스 연구/v1.2/BTCUSDT_Official_Raw_20261029.zip"
   },
-  "capture_interpretation": "4H448 support test and completed close loss, then D112 and D224/4H896 destinations; mature alignment differs from early alignment; moving targets and actual author execution remain separate.",
   "new_results": {
-    "selected_pattern_event_rows": 350,
-    "independent_350_trade_claim": false,
-    "448_break_14day_down": "14/35",
-    "448_reclaim_14day_up": "23/36",
-    "reclaim_daily112_above_rising448_up": "11/15; provisional, not trading accuracy",
-    "bull_engulf_14day_up": "49/102",
-    "bull_engulf_target_before_stop": "63/102; 1 daily ATR, max14days",
-    "head_shoulders_proxy_14day_down": "15/23; 1ATR target-first7/23",
-    "inverse_head_shoulders_proxy_14day_up": "11/29; not universal pattern performance",
-    "correctness_tests_passed": 21,
-    "clean_folder_reproduction": "7 output files byte-identical"
+    "same_v13_parent_events": 71,
+    "long_parents": 36,
+    "short_parents": 35,
+    "core_long_events": 15,
+    "configuration_rows_not_independent_trades": 5112,
+    "core14_direction": "11/15",
+    "matched_background14_pct": 64.44444444444444,
+    "matched_difference_pp": 8.88888888888889,
+    "matched_reference_interval_pp": [-10.42,30.56],
+    "terminal_winners_stopped_first": "6 of 11",
+    "same_stop_remove_profit_cap_mean_net50_pct": "-0.838% to +1.426%; without two largest winners -2.459%",
+    "persistence_gate_core": "8/11 vs 11/15; skipped 3 future rises and 1 fall",
+    "moving_target_touch": "12/18 vs frozen9/18; before reclaim both4/18",
+    "correctness_tests_passed": 33,
+    "byte_identical_result_csvs": 16
   },
-  "historical_exposure": "Exploratory exposed history; initial definitions locked before first run; separate close-invalidation addendum after first results, not new holdout.",
-  "library_package": "/BTC 폴라리스 연구/v1.3/BTC_Polaris_Capture_Study_v1_3_20261029.zip",
-  "package_sha256": "b7515f81e7e4b8a59e8787b1d7a18f1102bbf8d326667d565242de1bf4c16928",
-  "next_action": "Reuse raw data. Study cycle maturity, weakening support responses, moving MA destinations, early reaction vs persistence, and cash exit vs new-short economics. Obtain exact squirrel original definition before assigning that label.",
+  "cautions": [
+    "All historical periods exposed; not new forward evidence",
+    "Matched controls have overlapping future paths; uncertainty is descriptive",
+    "Economics are spot-path linear-notional simulations with fixed costs, not live futures returns",
+    "Do not treat direction hit rate, first-target rate, and net profitable-trade rate as interchangeable"
+  ],
+  "capture_interpretation_preserved": "4H448 support interaction then D112 and D224/4H896 destinations; mature and initial alignment differ. No claim to reproduce author's private execution rules.",
+  "library_package": "/BTC 폴라리스 연구/v1.4/BTC_Polaris_Deep_Study_v1_4_20261029.zip",
+  "package_sha256": "2911aa8c272fc05981a3f5cee397014d34b9421a4f960428f6e2f657df01a603",
+  "next_action": "Register first-reclaim/first-loss/recapture time-depth-structure hypotheses. Separate directional candidate from holding economics. Reuse stored raw data, preserve all failures, and do not optimize thresholds to the known large winners.",
   "existing_frozen_rules_modified": false,
   "existing_automations_modified": false,
-  "continuity": "Read latest library START_HERE and v1.3 findings; preserve v1/v1.1/v1.2 failures."
+  "continuity": "Read latest START_HERE and v1.4 findings. Prior versions remain preserved. No promise of automatic permanent memory."
 }
