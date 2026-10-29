@@ -1,0 +1,33 @@
+{
+  "project": "BTC 방향 선행연구 / Polaris Direction Lab",
+  "state_date": "2026-10-29",
+  "research_status": "AUDIT_COMPLETE_RAW_DIRECTION_BACKTEST_PENDING",
+  "live_decision": "NOT_PROMOTED",
+  "binding_user_intent": {
+    "ma_periods": [5, 10, 20, 60, 112, 224, 448, 896],
+    "exclude_869": true,
+    "allow_approximately_1pct_initial_confirmation": true,
+    "one_pct_is_not_a_rigid_filter": true,
+    "no_BTC_30pct_target_filter": true,
+    "long_and_short_separately": true,
+    "no_current_price_forecast_required": true
+  },
+  "research_objective": "First establish BTC 7/14/21-day directional edge; then validate transfer to major coins.",
+  "new_verified_findings": [
+    "linear USDT short return formula mismatch in saved Phase5B outcome ledger",
+    "56,780 outcome rows represent 9,464 unique events, not independent trades",
+    "saved Phase5B economic outcomes extend no further than 7 days, not 14/21-day direction",
+    "fixed triple-tap+DMI+VWMA long/short have different historical behavior; insufficient stability/sample for promotion",
+    "13 synthetic causality/accounting tests pass; no new empirical directional accuracy"
+  ],
+  "next_action": "Restore complete single-venue raw BTC OHLCV; reconstruct signal timestamps and 7/14/21-day paths. No more tuning on stopped-trade outcome tables.",
+  "do_not_repeat": [
+    "869 MA",
+    "BTC or NDX itself must move 30% in 3 weeks",
+    "price may never rise before entry",
+    "reuse target-hit rate as directional accuracy",
+    "claim all future chats automatically load every detail",
+    "claim model trained itself permanently"
+  ],
+  "continuity": "Read START_HERE, state, protocol and last findings before continuing; append decision log and preserve old failures."
+}
