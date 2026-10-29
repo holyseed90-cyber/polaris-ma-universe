@@ -1,0 +1,28 @@
+name: Polaris v1.6 Alt Daily Raw
+on:
+  push:
+    branches: [research/polaris-v16-alt-20261030]
+    paths:
+      - .github/workflows/polaris_v16_alt_raw.yml
+      - research/polaris_v16/collect_alt_daily.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download official public archives and verify checksums
+        run: python research/polaris_v16/collect_alt_daily.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: polaris-v16-alt-daily-20261028
+          path: research/polaris_v16/raw/
+          if-no-files-found: error
+          retention-days: 30
