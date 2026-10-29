@@ -1,7 +1,8 @@
 {
   "project": "BTC 방향 선행연구 / Polaris Direction Lab",
-  "version": "BTC-POLARIS-v1.4-20261029",
-  "research_status": "PAIRED_PATH_EXECUTION_MATCHED_CONTEXT_DYNAMIC_TARGET_STUDY_EXECUTED",
+  "version": "BTC-POLARIS-v1.5-20261029",
+  "state_date": "2026-10-29",
+  "research_status": "FIRST_LOSS_RECAPTURE_AND_EXECUTION_SENSITIVITY_EXECUTED",
   "live_decision": "NOT_PROMOTED",
   "binding_user_intent": {
     "ma_periods": [5,10,20,60,112,224,448,896],
@@ -10,46 +11,42 @@
     "one_pct_is_not_a_rigid_filter": true,
     "no_BTC_30pct_target_filter": true,
     "long_and_short_separately": true,
-    "probability_first": "Seek conditional probability and payoff improvement, not certainty. Retain useful hypotheses. Do not impose legacy 90% gate on every new swing study."
+    "probability_first": "Improve conditional probability and payoff; no certainty requirement and no universal legacy90% gate."
   },
-  "raw_data": {
+  "source": {
     "venue": "Binance spot BTCUSDT",
     "daily_rows": 3360,
     "four_hour_rows": 20142,
-    "latest_completed_day": "2026-10-28",
-    "archives_checksum_verified_this_run": 276,
     "missing_four_hour_slots": 17,
     "imputed": false,
-    "library_raw_path": "/BTC 폴라리스 연구/v1.2/BTCUSDT_Official_Raw_20261029.zip"
+    "cutoff_day": "2026-10-28",
+    "checked_archives": 276
   },
   "new_results": {
-    "same_v13_parent_events": 71,
-    "long_parents": 36,
-    "short_parents": 35,
+    "same_parent_events": 71,
     "core_long_events": 15,
-    "configuration_rows_not_independent_trades": 5112,
-    "core14_direction": "11/15",
-    "matched_background14_pct": 64.44444444444444,
-    "matched_difference_pp": 8.88888888888889,
-    "matched_reference_interval_pp": [-10.42,30.56],
-    "terminal_winners_stopped_first": "6 of 11",
-    "same_stop_remove_profit_cap_mean_net50_pct": "-0.838% to +1.426%; without two largest winners -2.459%",
-    "persistence_gate_core": "8/11 vs 11/15; skipped 3 future rises and 1 fall",
-    "moving_target_touch": "12/18 vs frozen9/18; before reclaim both4/18",
-    "correctness_tests_passed": 33,
-    "byte_identical_result_csvs": 16
+    "configured_rows_not_independent_trades": 6390,
+    "core_direction_common14": {"A":"11/15","B":"4/8","C":"3/6","D":"4/7","E":"3/5"},
+    "core_B_missed": "7 original upward cases, zero original downward cases; all four original downward cases retained",
+    "core_stop_hold_net50_entered_pct": {"A":1.425606,"B":-4.284189,"C":-3.770387,"D":-4.474808,"E":-3.934494},
+    "core_stop_hold_net50_all15_pct": {"A":1.425606,"B":-2.284901,"C":-1.508155,"D":-2.088244,"E":-1.311498},
+    "landmark72": "5/5 core nonrecoverers later rose; posthoc tiny subgroup, not validated signal",
+    "execution_sensitivity": "10bp adverse hypothetical entry with ATR stop reanchored reverses A mean sign; one hypothetical fill outside candle flagged",
+    "correctness_tests": 44,
+    "reproduced_csvs": 14
   },
+  "adopted_live_rules": [],
+  "next_action": "Keep original directional candidate; do not mandate a first re-loss. Register structural invalidation versus entry-anchored ATR stops under equal risk budgets, and separate fast starts from delayed recoveries without fitting to known winners.",
+  "library_package": "/BTC 폴라리스 연구/v1.5/BTC_Polaris_Sequence_Study_v1_5_20261029.zip",
+  "package_sha256": "811d7a21bf85f5301617fa2712275209c4366460cac61c7348e71255940792d6",
   "cautions": [
-    "All historical periods exposed; not new forward evidence",
-    "Matched controls have overlapping future paths; uncertainty is descriptive",
-    "Economics are spot-path linear-notional simulations with fixed costs, not live futures returns",
-    "Do not treat direction hit rate, first-target rate, and net profitable-trade rate as interchangeable"
+    "All history exposed; repeated exploratory comparisons, not new forward OOS.",
+    "Small core15 with no 2026 core event.",
+    "Direction rate is not trade profitability.",
+    "Hypothetical spot-path short, no funding/borrow/leverage.",
+    "Simulation and unit tests do not establish predictive accuracy."
   ],
-  "capture_interpretation_preserved": "4H448 support interaction then D112 and D224/4H896 destinations; mature and initial alignment differ. No claim to reproduce author's private execution rules.",
-  "library_package": "/BTC 폴라리스 연구/v1.4/BTC_Polaris_Deep_Study_v1_4_20261029.zip",
-  "package_sha256": "2911aa8c272fc05981a3f5cee397014d34b9421a4f960428f6e2f657df01a603",
-  "next_action": "Register first-reclaim/first-loss/recapture time-depth-structure hypotheses. Separate directional candidate from holding economics. Reuse stored raw data, preserve all failures, and do not optimize thresholds to the known large winners.",
   "existing_frozen_rules_modified": false,
   "existing_automations_modified": false,
-  "continuity": "Read latest START_HERE and v1.4 findings. Prior versions remain preserved. No promise of automatic permanent memory."
+  "continuity": "Read latest START_HERE and v1.5 findings; preserve prior versions; no automatic permanent memory claim."
 }
