@@ -1,8 +1,7 @@
 {
   "project": "BTC 방향 선행연구 / Polaris Direction Lab",
-  "version": "BTC-DIRECTION-v1.2-20261029",
-  "state_date": "2026-10-29",
-  "research_status": "OFFICIAL_RAW_RECOVERED_PAIRED_ENTRY_AND_DIRECTION_BASELINE_EXECUTED_NOT_PROMOTED",
+  "version": "BTC-POLARIS-v1.3-20261029",
+  "research_status": "SCREENSHOT_INTERPRETATION_AND_EXPLORATORY_CONDITIONAL_STATS_EXECUTED",
   "live_decision": "NOT_PROMOTED",
   "binding_user_intent": {
     "ma_periods": [5,10,20,60,112,224,448,896],
@@ -11,40 +10,38 @@
     "one_pct_is_not_a_rigid_filter": true,
     "no_BTC_30pct_target_filter": true,
     "long_and_short_separately": true,
-    "no_current_price_forecast_required": true
+    "probability_first": "Seek conditional statistical and payoff advantage, not certainty. Do not reject just because not100%. Do not assume every named pattern proven profitable. Do not impose old90% gate on every new swing study."
   },
-  "research_objective": "First establish BTC 7/14/21-day directional edge; then validate transfer to major coins.",
   "raw_data": {
     "venue": "Binance spot BTCUSDT",
     "daily_rows": 3360,
     "four_hour_rows": 20142,
-    "archives_checksum_verified": 276,
+    "latest_completed_day": "2026-10-28",
+    "archives_checksum_verified_this_run": 276,
     "missing_four_hour_slots": 17,
     "imputed": false,
-    "latest_completed_day": "2026-10-28",
-    "library_raw_path": "/BTC 폴라리스 연구/v1.2/BTCUSDT_Official_Raw_20261029.zip",
-    "github_run_id": 40849906211,
-    "artifact_id": 12887120971
+    "prior_version": "v1.2",
+    "library_raw_path": "/BTC 폴라리스 연구/v1.2/BTCUSDT_Official_Raw_20261029.zip"
   },
+  "capture_interpretation": "4H448 support test and completed close loss, then D112 and D224/4H896 destinations; mature alignment differs from early alignment; moving targets and actual author execution remain separate.",
   "new_results": {
-    "paired_eligible_preparations": 57,
-    "long_preparations": 40,
-    "short_preparations": 17,
-    "long_14day_positive_A_B_C": [0.60,0.5769230769,0.60],
-    "short_14day_positive_A_B_C": [0.4705882353,0.3846153846,0.30],
-    "long_confirmation_B_mean_price_concession_pct": 1.012034,
-    "daily_threeclass_14day_MA_accuracy": 0.4431226766,
-    "daily_threeclass_14day_FULL_accuracy": 0.4535315985,
-    "accuracy_improvement_proven": false,
-    "correctness_tests_passed": 31,
-    "clean_folder_reproduction": "PASS; 8 core output contents identical"
+    "selected_pattern_event_rows": 350,
+    "independent_350_trade_claim": false,
+    "448_break_14day_down": "14/35",
+    "448_reclaim_14day_up": "23/36",
+    "reclaim_daily112_above_rising448_up": "11/15; provisional, not trading accuracy",
+    "bull_engulf_14day_up": "49/102",
+    "bull_engulf_target_before_stop": "63/102; 1 daily ATR, max14days",
+    "head_shoulders_proxy_14day_down": "15/23; 1ATR target-first7/23",
+    "inverse_head_shoulders_proxy_14day_up": "11/29; not universal pattern performance",
+    "correctness_tests_passed": 21,
+    "clean_folder_reproduction": "7 output files byte-identical"
   },
-  "historical_exposure": "Chronological historical recheck, not genuinely unseen forward validation",
-  "economics_scope": "Spot-path hypothetical long/short; cost proxies, not actual perpetual execution/funding/borrow/leverage returns",
-  "library_package": "/BTC 폴라리스 연구/v1.2/BTC_Direction_Study_v1_2_20261029.zip",
-  "package_sha256": "51884173699b379adbe068a4959198dcfbe946a687501454bde3fd3e72f6c64b",
-  "next_action": "Reuse preserved raw data. Preregister separate regime-transition and reaction-versus-persistence hypotheses; compare multi-bar confirmation and event sampling sensitivity. Do not retune failed rules on inspected outcomes.",
+  "historical_exposure": "Exploratory exposed history; initial definitions locked before first run; separate close-invalidation addendum after first results, not new holdout.",
+  "library_package": "/BTC 폴라리스 연구/v1.3/BTC_Polaris_Capture_Study_v1_3_20261029.zip",
+  "package_sha256": "b7515f81e7e4b8a59e8787b1d7a18f1102bbf8d326667d565242de1bf4c16928",
+  "next_action": "Reuse raw data. Study cycle maturity, weakening support responses, moving MA destinations, early reaction vs persistence, and cash exit vs new-short economics. Obtain exact squirrel original definition before assigning that label.",
   "existing_frozen_rules_modified": false,
   "existing_automations_modified": false,
-  "continuity": "Read latest START_HERE and versioned findings before continuing; preserve old failures and calculation corrections."
+  "continuity": "Read latest library START_HERE and v1.3 findings; preserve v1/v1.1/v1.2 failures."
 }
