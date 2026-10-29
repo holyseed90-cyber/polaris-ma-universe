@@ -1,0 +1,34 @@
+name: BTC Direction v1.2 Raw Recovery
+on:
+  push:
+    branches: [research/btc-direction-v12-20261029]
+    paths:
+      - .github/workflows/btc_direction_v12_raw.yml
+      - research/btc_direction_v12/collect_raw.py
+permissions:
+  contents: read
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install collector dependencies
+        run: pip install 'pandas>=2.2,<3' 'requests>=2.32,<3'
+      - name: Compile collector
+        run: python -m py_compile research/btc_direction_v12/collect_raw.py
+      - name: Collect and verify public data
+        run: python research/btc_direction_v12/collect_raw.py
+      - name: Preserve raw data and failure logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-direction-v12-raw-20261029
+          path: research/btc_direction_v12/output/
+          if-no-files-found: error
+          retention-days: 30
