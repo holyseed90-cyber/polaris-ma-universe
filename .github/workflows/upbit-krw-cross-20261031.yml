@@ -1,0 +1,22 @@
+name: Upbit KRW 1h SMA Cross Scan 20261031
+on:
+  push:
+    branches: ['research/upbit-krw-1h-ma-cross-20261031']
+    paths: ['.github/workflows/upbit-krw-cross-20261031.yml']
+permissions:
+  contents: read
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run public Upbit KRW hourly universe scan
+        run: python research/upbit_hourly_cross_20261031/scan.py
+      - name: Preserve completed candle market scan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: upbit-krw-1h-cross-results-20261031
+          path: upbit_screen/
+          retention-days: 30
