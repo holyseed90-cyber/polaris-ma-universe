@@ -1,0 +1,22 @@
+name: BTC Polaris 5-frame completed candle 20261031
+on:
+  push:
+    branches: [research/btc-polaris-brief-20261031]
+    paths: [.github/workflows/btc-polaris-brief-20261031.yml]
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect and calculate BTCUSDT SPOT completed 5 timeframes
+        run: python research/btc_direction/daily_brief_20261031/collect.py
+      - name: Save observed candle audit and errors
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-polaris-5tf-snapshot-20261031
+          path: btc_polaris_daily_20261031/
+          retention-days: 30
